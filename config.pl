@@ -1,5 +1,7 @@
 #!/usr/local/bin/perl
 
+# nothing of importance
+#
 $NPL_BASE=$ENV{'NPL_BASE'};
 
 #$INPUTDIR_PATENTS_FRONT="$NPL_BASE" . "/nplmatch/inputs/frontocrnpl/ocrnplbyrefyear/"; # Input files of format front_YYYY.tsv, 1947-1975 only, to account for google missing these
