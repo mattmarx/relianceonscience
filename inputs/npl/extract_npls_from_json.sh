@@ -1,0 +1,1 @@
+cat *json | grep npl_text | grep -v "npl_text\":\"\"" | grep -v "npl_text\":\"None\"" | sed -e 's/.*\"publication_number\":\"//' | sed -e 's/\",\"application_number.*npl_text\":\"//' | sed -e 's/\",\"grant_date.*npl_text\":\"//' | sed -e 's/\",\"type\".*//'

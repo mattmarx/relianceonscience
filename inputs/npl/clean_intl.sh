@@ -1,0 +1,1 @@
+cat international_npl.txt | grep -v "^us" | grep [a-zA-z] | grep -v ": None" | sort -u | sed -e 's/^__npl citation: __//' | sed -e 's/\([^:]*\): /\1	/' | grep "[a-zA-Z0-9]	" | tr [:upper:] [:lower:] | perl screen_npljunk.pl > international_npl_clean.tsv

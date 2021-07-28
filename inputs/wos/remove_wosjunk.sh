@@ -1,0 +1,2 @@
+#cat wosplpubinfo1955-2017_filteredISS-withjunk.txt | sed -e 's/\]/ /g' | sed -e 's/\[/ /g' | sed -e 's/\\/ /g' | sed -e 's/{/ /g' | sed -e 's/}/ /g' > wosplpubinfo1955-2017_filteredISS.txt
+cat wosplpubinfo1955-2017_filteredISS-withjunk.txt | sed -e 's/\]/ /g' | sed -e 's/(/ /g' | sed -e 's/)/ /g' | sed -e 's/\[/ /g' | sed -e 's/\\/ /g' | sed -e 's/{/ /g' | sed -e 's/}/ /g' > wosplpubinfo1955-2017_filteredISS.txt

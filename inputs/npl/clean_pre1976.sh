@@ -1,0 +1,1 @@
+cat pre_1976_npls.txt | grep [a-zA-Z] |  grep -v ": None" | sort -u | sed -e 's/^__npl citation: __//' | sed -e 's/\([^:]*\): /\1      /' | tr [:upper:] [:lower:] | perl screen_npljunk.pl > pre_1976_npls_clean.tsv
