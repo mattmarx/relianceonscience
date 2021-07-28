@@ -1,0 +1,2 @@
+cat $NPL_BASE/nplmatch/splittitle_articles/year_regex_scored_body_wos_lev/*.txt $NPL_BASE/nplmatch/splitpagevol_articles/year_regex_scored_body_wos_lev/*.txt  $NPL_BASE/nplmatch/splitjournal_articles/year_regex_scored_body_wos/*.txt | sed -e "s/__us/__US/" | sed -e "s/_u_s/__US/" | sed -e "s/us__/__US/" | sed -e "s/s__u/__US/" | sed -e "s/__u_s/__US/" |  sort -u > $NPL_BASE/nplmatch/process_matches/scored_body_wos.tsv
+

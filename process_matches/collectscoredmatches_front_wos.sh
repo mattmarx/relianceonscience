@@ -1,0 +1,3 @@
+cat $NPL_BASE/nplmatch/splittitle_articles/year_regex_scored_front_wos_lev/*.txt $NPL_BASE/nplmatch/splitpagevol_articles/year_regex_scored_front_wos_lev/*.txt  $NPL_BASE/nplmatch/splitjournal_articles/year_regex_scored_front_wos/*.txt | sort -u > $NPL_BASE/nplmatch/process_matches/scored_front_wos.tsv
+#cat $NPL_BASE/nplmatch/splittitle_articles/year_regex_scored_front_wos_lev/*.txt $NPL_BASE/nplmatch/splitpagevol_articles/year_regex_scored_front_wos_lev/*.txt  $NPL_BASE/nplmatch/splitjournal_articles/year_regex_scored_front_wos/*.txt | sed -e 's/	__us0*/	/' | sed -e 's/	us0*/	/' |   sort -u > $NPL_BASE/nplmatch/process_matches/scored_front_wos.tsv
+
