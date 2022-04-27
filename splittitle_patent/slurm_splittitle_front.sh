@@ -1,25 +1,25 @@
 #!/bin/bash -l
 
-##$ -j y
+##############$ -j y
 #SBATCH -o splittitle-%j.out
 
-##$ -N splittitle_front
+#############$ -N splittitle_front
 #SBATCH -J splittitle_front
 
-##$ -l h_rt=96:00:00
+##############$ -l h_r###t=96:00:00
 #SBATCH -t 96:00:00
 
-##$ -hold_jid terracefront,terracemag,terracepubmed,terracewos
-#SBATCH --dependency=singleton --job-name=terracemag --job-name=terracewos --job-name=terracepubmed
+#################$ -hold_jid terracefront,terracemag,terracepubmed,terracewos
+#####SBATCH --dependency=singleton --dependency=terracemag --dependency=terracewos --dependency=terracepubmed
 
-##$ -V
+###############$ -V
 
 #chmod 664 $SGE_STDOUT_PATH
 #chmod 664 $SGE_STDERR_PATH
 
-##$ -t 1799-2020
+##########$ -t 1799-2020
 ##SBATCH --array=0-2
-#SBATCH --array=0-221
+#SBATCH --array=0-222
 
 YEAR_ID=$(( ($SLURM_ARRAY_TASK_ID + 1799) ))
 

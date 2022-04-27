@@ -117,7 +117,7 @@ while (<INFILE>) {
 
 	# Skip items with No author, "[anonymous]" author, before 1800, or after 2020
 	# MMADD change this to 1799 to accommodate the no-year NPs
-	if (($firstauthor_lastname eq "")||($firstauthor_lastname eq "[anonymous]")||($year<1799)||($year>2020)) { next; }
+	if (($firstauthor_lastname eq "")||($firstauthor_lastname eq "[anonymous]")||($year<1799)||($year>2030)) { next; }
 
 	$matchnumber=$firstpage;
 	if (!$matchnumber) { $matchnumber=$vol; }

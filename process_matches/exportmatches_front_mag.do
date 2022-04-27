@@ -1,3 +1,6 @@
+global mag /home/fs01/mtm83/dropbox/bigdata/mag/dta
+global patent /home/fs01/mtm83/dropbox/bigdata/patents/ 
+
 !cut -f1,2,10,19 scored_front_magOCR.tsv > scored_front_magOCRshort.tsv
 import delimited using scored_front_magOCRshort.tsv, clear delim(tab)
 rename v4 patent 
@@ -29,14 +32,14 @@ drop if missing(patent)
 gen patnum = patent
 replace patnum = regexs(1) if regexm(patent, "__(.*)__")
 replace patnum = regexs(1) if regexm(patent, "US-([0-9]*)")
-merge m:1 patnum using ../../patents/googpat/1835-2019patgrantyears, keep(1 3) nogen
-merge m:1 patnum using ../../patents/googpat/intlpatappyear, keep(1 3) nogen
+merge m:1 patnum using $patent/googpat/1835-2019patgrantyears, keep(1 3) nogen
+merge m:1 patnum using $patent/googpat/intlpatappyear, keep(1 3) nogen
 replace grantyear = appyear if missing(grantyear)
 destring patnum, gen(patint) force
 replace grantyear = 2019 if patint>10165721 & patint<10524402
 replace grantyear = 2020 if patint>10524402 & !missing(patnum)
 drop patnum
-merge m:1 magid using ../../mag/dta/magyear, keep(1 3) nogen
+merge m:1 magid using $mag/magyear, keep(1 3) nogen
 gen patdigits = regexs(1) if regexm(patent, "^__US-([0-9]+)")
 * for now, move [postfix PP/H/D to start of patnum to match body.
 * someday when we are pulling body & front from google, don't do any of this b/c they will match
@@ -56,7 +59,7 @@ duplicates drop
 drop if confscore<1
 * some cruft, not sure why
 drop if length(reftype)>3
-replace reftype = "exm" if regexm(patent, "-") & reftype!="app"
+// replace reftype = "exm" if regexm(patent, "-") & reftype!="app"
 replace reftype = "app" if reftype=="oth"
 compress reftype
 * drop <3, flatten >10
@@ -69,7 +72,7 @@ drop appyear
 drop patdigits patint
 // drop year
 compress
-save scored_front_mag_bestonlyexportincludeconf12, replace
+// save scored_front_mag_bestonlyexportincludeconf12, replace
 // drop if confscore<3
 save scored_front_mag_bestonlyexport, replace
 // use scored_front_mag_bestonlyexport, clear

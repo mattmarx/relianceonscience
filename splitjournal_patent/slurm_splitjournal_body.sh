@@ -13,7 +13,7 @@
 #SBATCH --wckey=marxnfs1
 ### #$ -P marxnsf1
 
-#SBATCH --depend=terracejournal
+###SBATCH --depend=terracejournal
 ### #$ -hold_jid terracejournal
 
 #SBATCH --export=ALL

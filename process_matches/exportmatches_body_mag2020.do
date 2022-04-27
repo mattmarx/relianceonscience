@@ -1,9 +1,14 @@
 !cut -f1,2,10,19 scored_body_mag_bestonly2020.tsv > scored_body_mag_bestonly2020short.tsv
 import delimited using scored_body_mag_bestonly2020short.tsv, clear delim(tab)
 
+capture rename ref v1 
+capture rename conf v2 
+capture rename code v3 
+capture rename pat v4 
+
 rename v1 reftype
 drop if length(reftype)>3
-replace reftype = "app" if reftype!="exm"
+// replace reftype = "app" if reftype!="exm"
 compress reftype
 rename v2 confscore
 rename v3 magid

@@ -5,8 +5,8 @@ JOBTYPE=sjbm
 FRONTORBODY=body
 ARTICLEDB=mag
 
-#for YEAR in {1977..1977}
-for YEAR in {1800..2020}
+for YEAR in {2017..2017}
+#for YEAR in {1800..2020}
 do
  TEMPSLURMFILE=./tempslurm/${JOBTYPE}${YEAR}.slurm
  echo

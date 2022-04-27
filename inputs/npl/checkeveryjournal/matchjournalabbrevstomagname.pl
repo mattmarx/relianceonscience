@@ -2,7 +2,7 @@
 
 $debug=1;
 
-$abbrevsfile="../../../../../dropbox/bigdata/xwalkwosmag/wosmagjournalxwalk.tsv";
+$abbrevsfile="wosmagjournalxwalk.tsv";
 open(ABBREVS,"$abbrevsfile")||die("Can't open abbreviations file $abbrevsfile\n");
 
 $journalmatchesfile="matchedjournalscolor.tsv";
