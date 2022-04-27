@@ -1,0 +1,23 @@
+Journals Sequence:
+
+1. there's a curated list of WOS journals and abbreviations, one per line (NOT a crosswalk), in journalsandabbrevsshortsortspacebeforeafter.tsv. This was created by stacking the columns of ../..//journalabbrev/journalabbrevs-extended.tsv and then removing hundreds of "junk" entries.
+
+2. add to this list the set of MAG journal names, plus those journal name with leading "the" removed: 
+cat journalsandabbrevsshortsortspace.tsv ../../../../xwalkwosmag/magjournalabbrevs.tsv | sort -u > journalsandabbrevswithspacetogrep.tsv
+#cat journalsandabbrevsshortsortspacebeforeafter.tsv ../../../../xwalkwosmag/magjournalabbrevs.tsv | sort -u > journalsandabbrevstogrep.tsv
+
+2.5 make list of single journal names
+cat journalsandabbrevs.tsv | grep -v " " | grep -v "\-" | sed -e 's/./\u&/' | perl -e 'print sort { length($a) <=> length($b) } <>' > journalsandabbrevsnospacetogrep.tsv
+
+3. run ./checkjournalsinlines.sh.
+
+4. Convert abbreviated journal names to MAG name for journals and separate it out as its own column
+/projectnb/marxnsf1/dropbox/bigdata/nplmatch/inputs/body/checkeveryjournal/matchjournalabbrevstomagname.pl
+Relies on matchedjournalscolor.tsv and /projectnb/marxnsf1/dropbox/bigdata/xwalkwosmag/wosmagjournalxwalk.tsv
+Generates matchedjournals_magname.tsv with the format MAG JOURNAL NAME\tPATENT\tWINDOW
+
+5. remove duplicates from output: matchedjournals_magname.tsv | sort -u > matchedjournals_magnameNODUPES.tsv
+5. Run terracing to separate by Year:
+sge_terracejournalbody.sh
+Generates files in the directory journalbodybyrefyear of the format journalbody_YYYY.tsv
+These files will be used by code in /projectnb/marxnsf1/dropbox/bigdata/nplmatch/splitjournal/
