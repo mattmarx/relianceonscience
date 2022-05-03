@@ -12,3 +12,5 @@ foreach $file (@files) {
     $ctr++;
     symlink($file,$newfilename);
 }
+
+# Josh adding another note
