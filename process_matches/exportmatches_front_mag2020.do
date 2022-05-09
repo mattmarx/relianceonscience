@@ -1,6 +1,8 @@
 
 !cut -f1,2,10,19 scored_front_mag_bestonly2020.tsv > scored_front_mag_bestonly2020short.tsv
 import delimited using scored_front_mag_bestonly2020short.tsv, clear delim(tab)
+capture rename file3 v1 
+capture rename heuristics v2 
 drop if _n==1
 rename v1 reftype
 *rename __us4484308 magid
@@ -22,7 +24,7 @@ replace patent = upper(trim(patent))
 replace patent = regexs(1) if regexm(patent, "__(.*)")
 replace patent = "US-" + patent if regexm(patent, "^[0-9]")
 replace patent = "US-" + patent if regexm(patent, "US([0-9].*)")
-replace reftype = "exm" if !regexm(patent, "US-") & reftype!="app"
+// replace reftype = "exm" if /*!regexm(patent, "US-") &*/ reftype!="app"
 replace reftype = "app" if reftype=="oth"
 compress reftype
 * remove leading zeroes

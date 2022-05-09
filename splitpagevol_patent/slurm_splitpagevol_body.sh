@@ -9,7 +9,7 @@
 ### #$ -N splitpagevol_body
 
 
-#SBATCH --depend=terracebody,terracemag,terracepubmed,terracewos
+###SBATCH --depend=terracebody,terracemag,terracepubmed,terracewos
 ### #$ -hold_jid terracebody,terracemag,terracepubmed,terracewos
 
 #SBATCH --wckey=marxnfs1

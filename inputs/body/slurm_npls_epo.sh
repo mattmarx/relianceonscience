@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 ##$ -t 10004-10039
-#SBATCH -a 0-2
+#SBATCH -a 1-39
 
 ##$ -m a
 ##$ -j y
