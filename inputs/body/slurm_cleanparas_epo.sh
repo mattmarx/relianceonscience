@@ -2,7 +2,7 @@
 
 ##$ -t 10001-10783
 ##SBATCH -a 1-10
-#SBATCH -a 0-2
+#SBATCH -a 1-39
 ##$ -j y
 ##$ -N cleanparas
 #SBATCH -J cleanparas

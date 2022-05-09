@@ -34,13 +34,13 @@ for($i=0;$i<26;$i++) {
     $outdir_letter="$outdir" . "$Alphabet[$i]";
     if (!(-e $outdir_letter)) {
 	mkdir($outdir_letter);
-        `chmod 775 $outdir_letter`;
+        `chmod 777 $outdir_letter`;
     }
     for($j=0;$j<26;$j++) {
 	$outdir_letter="$outdir" . "$Alphabet[$i]" . "/" . "$Alphabet[$j]";
 	if (!(-e $outdir_letter)) {
 	    mkdir($outdir_letter);
-	    `chmod 775 $outdir_letter`;
+	    `chmod 777 $outdir_letter`;
 	}
     }
 }
@@ -98,7 +98,7 @@ foreach $key (sort(keys %Output)) {
     open(OUTFILE,">$outdir$firstletter/$secondletter/$key");
     print OUTFILE "$Output{$key}";
     close(OUTFILE);
-    `chmod 664 $outdir$firstletter/$secondletter/$key`;
+#    `chmod 664 $outdir$firstletter/$secondletter/$key`;
 }
 
 $date=`date`;

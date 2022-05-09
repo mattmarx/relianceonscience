@@ -140,7 +140,7 @@ while (<INFILE>) {
 	$title_print=~s/[^a-zA-Z0-9-,'.(): ]//g;
 
 	# Skip items with No author, "[anonymous]" author, before 1800, or after 2021
-	if (($firstauthor_lastname eq "")||($firstauthor_lastname eq "[anonymous]")||($year<1799)||($year>2020)) { next; }
+	if (($firstauthor_lastname eq "")||($firstauthor_lastname eq "[anonymous]")||($year<1799)||($year>2030)) { next; }
 
 	# Mytitle is the version we use to split the title up in to words in the same way done in 'splitword'
 	$mytitle=lc($title);

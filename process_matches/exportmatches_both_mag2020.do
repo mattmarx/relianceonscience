@@ -46,6 +46,10 @@ duplicates drop
 // replace wherefound = "" if uspto==0
 * if any of the cites say examiner then assume that
 
+* assume EXAMINER cite for non-USPTO unless says otherwise
+* assume APPLICANT cite for USPTO unless says otherwise
+replace reftype = "exm" if uspto==0 & reftype!="app"
+replace reftype = "app" if uspto==1 & reftype!="exm"
 gen origreftype = reftype
 gen typexm = origreftype=="exm"
 bys magid patent: egen evertypexm = max(typexm)

@@ -12,7 +12,7 @@
 #SBATCH -t 48:00:00
 
 ### #$ -hold_jid terracebody,terracewos,terracemag,terracepubmed
-#SBATCH --depend=terracebody,terracewos,terracemag,terracepubmed
+###SBATCH --depend=terracebody,terracewos,terracemag,terracepubmed
 
 ### #$ -P marxnsf1
 #SBATCH --wckey=marxnfs1
