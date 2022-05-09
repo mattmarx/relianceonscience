@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl
 
-# nothing of importance - Josh added this to test
+# nothing of importance
 #
 $NPL_BASE=$ENV{'NPL_BASE'};
 
