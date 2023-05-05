@@ -5,8 +5,9 @@ require "$ENV{'NPL_BASE'}/nplmatch/config.pl";
 $maxnumber="100000";
 
 $year=$ARGV[0];
-#$infile="$INPUTDIR_PATENTS_FRONT" . "front_$year" . ".tsv";
-$infile="$INPUTDIR_PATENTS_FRONTBATCH" . "front_$year" . ".tsv";
+
+$infile="$INPUTDIR_PATENTS_FRONT" . "front_$year" . ".tsv";
+#$infile="$INPUTDIR_PATENTS_FRONTBATCH" . "front_$year" . ".tsv";
 if (!$year) { die "Usage: splitpagevol_front.pl YEAR\n"; }
 
 open(INFILE,"$infile")||die("Can't open infile $infile.\n");
