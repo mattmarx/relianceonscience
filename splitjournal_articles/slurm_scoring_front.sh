@@ -19,7 +19,8 @@ ARTICLEDB=oa # mag or oa or wos
 
 year=$(perl /home/fs01/nplmatchroot/nplmatch/config.pl)
 
-for ((i=1800; i<=$year; i++))
+for ((i=1800; i<=1999; i++))
+#for ((i=1800; i<=$year; i++))
 do
  TEMPSLURMFILE=./tempslurm/${JOBTYPE}${i}.slurm
  echo
@@ -29,7 +30,9 @@ do
  echo "writing $TEMPSLURMFILE"
  echo "#!/bin/bash -l" > $TEMPSLURMFILE
  echo "" >>$TEMPSLURMFILE
- echo "#SBATCH -p small,large,xlarge" >> $TEMPSLURMFILE
+# echo "#SBATCH -p small,large,xlarge" >> $TEMPSLURMFILE
+ #echo "#SBATCH -p xlarge,small" >> $TEMPSLURMFILE
+ echo "#SBATCH -p xlarge,small,large" >> $TEMPSLURMFILE
  echo "#SBATCH -t 96:00:00" >> $TEMPSLURMFILE
  echo "#SBATCH -J ${JOBTYPE}${i}" >> $TEMPSLURMFILE
  echo "#SBATCH --array=1-${FILESFORYEAR}" >>$TEMPSLURMFILE
