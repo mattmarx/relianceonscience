@@ -20,16 +20,22 @@ year=$(perl $NPL_BASE/nplmatch/config.pl)
 ### set the present working directory to variable
 directory=$(pwd)
 
-for ((i=1993; i<=1993; i++))
+#for ((i=1993; i<=1993; i++))
+#for ((i=1800; i<=$year; i++))
+#for ((i=1900; i<=1990; i++))
+#for ((i=2005; i<=2012; i++))
+for ((i=1987; i<=1990; i++))
 do
  TEMPFILE=./slurmfile.slurm
  echo "doing $i"
  echo "#!/bin/bash" > $TEMPFILE
- echo "#SBATCH -p xlarge" >> $TEMPFILE ### only use xlarge partition for patent step
+ echo "#SBATCH -p large,small" >> $TEMPFILE ### only use small,large partition for patent step
  echo "#SBATCH -J stb$i" >> $TEMPFILE
  echo "#SBATCH -t 14-0" >> $TEMPFILE ### batch processing requires a larger time scale than just 96 hrs
  echo "#SBATCH --wckey=marxnfs1" >> $TEMPFILE
- echo "#SBATCH -n 100" >> $TEMPFILE
+ ########echo "#SBATCH -n 2" >> $TEMPFILE
+ #echo "#SBATCH -n 64" >> $TEMPFILE
+ #echo "#SBATCH -n 100" >> $TEMPFILE
  echo "" >> $TEMPFILE
  echo "module load perl5-libs" >>$TEMPFILE
  echo "perl $directory/splittitle_body.pl $i" >> $TEMPFILE

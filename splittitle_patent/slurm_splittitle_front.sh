@@ -20,7 +20,7 @@ do
  TEMPFILE=./slurmfile.slurm
  echo "doing $i"
  echo "#!/bin/bash" > $TEMPFILE
- echo "#SBATCH -p xlarge" >> $TEMPFILE ### only use xlarge partition for patent step
+ echo "#SBATCH -p small,large" >> $TEMPFILE ### only use small or large partition for patent step
  echo "#SBATCH -J stf$i" >> $TEMPFILE
  echo "#SBATCH -t 14-0" >> $TEMPFILE ### batch processing requires a larger time scale than just 96 hrs
  echo "#SBATCH --wckey=marxnfs1" >> $TEMPFILE
