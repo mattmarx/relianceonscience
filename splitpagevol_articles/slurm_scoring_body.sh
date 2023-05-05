@@ -17,7 +17,9 @@ ARTICLEDB=oa # mag or oa or wos
 
 year=$(perl /home/fs01/nplmatchroot/nplmatch/config.pl)
 
-for ((i=2000; i<=2000; i++))
+#for ((i=1800; i<=$year; i++))
+for ((i=1800; i<=2021; i++))
+#for ((i=2022; i<=2022; i++))
 do
  TEMPSLURMFILE=./tempslurm/${JOBTYPE}${i}.slurm
  rm -f $TEMPSLURMFILE

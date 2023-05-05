@@ -20,8 +20,8 @@ do
  TEMPFILE=./slurmfile.slurm
  echo "buildsplitregex_byyear_body $i"
  echo "#!/bin/bash" > $TEMPFILE
- echo "#SBATCH -p large,xlarge" >> $TEMPFILE
- echo "#SBATCH -J spvb${i}" >> $TEMPFILE
+ echo "#SBATCH -p xlarge,large,small" >> $TEMPFILE 
+ echo "#SBATCH -J bpbo${i}" >> $TEMPFILE
  echo "#SBATCH -t 14-00:00" >> $TEMPFILE
  echo "#SBATCH --wckey=marxnfs1" >> $TEMPFILE
  echo "" >> $TEMPFILE

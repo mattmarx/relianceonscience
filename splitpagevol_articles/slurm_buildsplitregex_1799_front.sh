@@ -14,8 +14,8 @@ dBase=oa # mag or oa or wos
 TEMPFILE=./slurmfile.slurm
 echo "buildsplitregex1799_front"
 echo "#!/bin/bash" > $TEMPFILE
-echo "#SBATCH -p xlarge" >> $TEMPFILE
-echo "#SBATCH -J pvfo1799" >> $TEMPFILE
+echo "#SBATCH -p large" >> $TEMPFILE
+echo "#SBATCH -J bvfo1799" >> $TEMPFILE
 echo "#SBATCH -t 14-00:00" >> $TEMPFILE
 echo "#SBATCH --wckey=marxnfs1" >> $TEMPFILE
 echo "" >> $TEMPFILE
