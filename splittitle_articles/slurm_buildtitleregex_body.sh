@@ -15,13 +15,15 @@ dBase=oa # mag or oa or wos
 
 year=$(perl /home/fs01/nplmatchroot/nplmatch/config.pl)
 
-for ((i=1800; i<=$year; i++))
+for ((i=1900; i<=1919; i++)) # THESE NEED SMALL OR LARGE
+#for ((i=1800; i<=$year; i++))
 do
  TEMPFILE=./slurmfile.slurm
  echo "buildtitleregex_byyear_body $i"
  echo "#!/bin/bash" > $TEMPFILE
- echo "#SBATCH -p xlarge" >> $TEMPFILE
- echo "#SBATCH -J stbo${i}" >> $TEMPFILE
+ echo "#SBATCH -p xlarge,small,large" >> $TEMPFILE
+ #echo "#SBATCH -p small,large" >> $TEMPFILE
+ echo "#SBATCH -J btbo${i}" >> $TEMPFILE
  echo "#SBATCH -t 14-00:00" >> $TEMPFILE
  echo "#SBATCH --wckey=marxnfs1" >> $TEMPFILE
  echo "" >> $TEMPFILE

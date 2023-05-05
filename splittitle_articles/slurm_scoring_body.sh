@@ -27,7 +27,7 @@ do
  echo "writing $TEMPSLURMFILE"
  echo "#!/bin/bash -l" > $TEMPSLURMFILE
  echo "" >>$TEMPSLURMFILE
- echo "#SBATCH -p small,large,xlarge" >> $TEMPSLURMFILE
+ echo "#SBATCH -p xlarge,small,large" >> $TEMPSLURMFILE
  echo "#SBATCH -t 96:00:00" >> $TEMPSLURMFILE
  echo "#SBATCH -J ${JOBTYPE}${i}" >> $TEMPSLURMFILE
  echo "#SBATCH --array=1-${FILESFORYEAR}" >>$TEMPSLURMFILE

@@ -1,31 +1,27 @@
 #!/usr/local/bin/perl
 
-require "$ENV{'NPL_BASE'}/nplmatch/config.pl";
-
-$filesize=100000000;
 $inputyear="";
 $file=0;
-
 if ($ARGV[0]=~/^wos$/i) {
-    $inputfilesbasepath="$INPUTDIR_WOS" . "wos_";
+    $inputfilesbasepath="/projectnb/marxnsf1/dropbox/bigdata/nplmatch/inputs/wos/wosbyyear/wos_";
     $inputyear=$ARGV[1];
     $sourcefilecode="wos";
 
     $inputfile="$inputfilesbasepath"."$inputyear".".tsv";
 
     if (!$inputyear) {
-	die("Usage: buildtitleregex_byyear_front_lev.pl [mag YEAR]|[wos YEAR]|[filename_or_fullpath_of_file]\n");
+	die("Usage: buildtitleregex_byyear_front.pl [mag YEAR]|[wos YEAR]|[filename_or_fullpath_of_file]\n");
     }
 }
 elsif ($ARGV[0]=~/^mag$/i) {
-    $inputfilesbasepath="$INPUTDIR_MAG" . "mag_";
+    $inputfilesbasepath="/projectnb/marxnsf1/dropbox/bigdata/nplmatch/inputs/mag/magbyyear/mag_";
     $inputyear=$ARGV[1];
     $sourcefilecode="mag";
 
     $inputfile="$inputfilesbasepath"."$inputyear".".tsv";
 
     if (!$inputyear) {
-	die("Usage: buildtitleregex_byyear_front_lev.pl [mag YEAR]|[wos YEAR]|[filename_or_fullpath_of_file]\n");
+	die("Usage: buildtitleregex_byyear_front.pl [mag YEAR]|[wos YEAR]|[filename_or_fullpath_of_file]\n");
     }
 }
 else {
@@ -34,7 +30,7 @@ else {
     $file=1;
     
     if (!(-e $inputfile)) {
-	die("Usage: buildtitleregex_byyear_front_lev.pl [mag YEAR]|[wos YEAR]|[filename_or_fullpath_of_file]\n");
+	die("Usage: buildtitleregex_byyear_front.pl [mag YEAR]|[wos YEAR]|[filename_or_fullpath_of_file]\n");
     }
 }
 
@@ -47,8 +43,7 @@ open(INFILE,$inputfile)||die("Can't open input file $inputfile");
 # space separates patent & ref for the master NPL
 # tab separates patent & ref for the yearly slices (and has the year at the end, which could create false positives
 
-$skipfilepath="$NPL_MISC" . "skipwords";
-open(SKIPWORDSFILE,"$skipfilepath")||die("Couldn't open skipwords file $skipfilepath .\n");
+open(SKIPWORDSFILE,"/projectnb/marxnsf1/dropbox/bigdata/nplmatch/splittitle_patent/skipwords")||die("Couldn't open skipwords file.\n");
 while(<SKIPWORDSFILE>) {
     $word=$_;
     $word=~s/\s+//g;
@@ -56,8 +51,7 @@ while(<SKIPWORDSFILE>) {
 }
 close(SKIPWORDSFILE);
 
-$skiptitlespath="$NPL_MISC" . "badtitles.txt";
-open(SKIPTITLESFILE,"$skiptitlespath")||die("Couldn't open skiptitles file $skiptitlespath .\n");
+open(SKIPTITLESFILE,"/projectnb/marxnsf1/dropbox/bigdata/nplmatch/badtitles.txt")||die("Couldn't open skiptitles file.\n");
 while(<SKIPTITLESFILE>) {
     $title=$_;
     $title=~s/\n//;
@@ -65,15 +59,14 @@ while(<SKIPTITLESFILE>) {
 }
 close(SKIPTITLESFILE);
 
-$outputdir="$NPL_BASE" . "/nplmatch/splittitle_articles/year_regex_scripts_front_" . "$sourcefilecode". "_lev/";
+$outputdir="/projectnb/marxnsf1/dropbox/bigdata/nplmatch/splittitle_articles/year_regex_scripts_front_" . "$sourcefilecode". "/";
 
-$inputdir="$NPL_BASE" . "/nplmatch/splittitle_patent/front/";
+$inputdir="/projectnb/marxnsf1/dropbox/bigdata/nplmatch/splittitle_patent/front/";
 
 $date=`date`;
 print "$date";
 
-$curdir="$NPL_BASE" . "/nplmatch/splittitle_articles";
-chdir("$curdir");
+chdir("/projectnb/marxnsf1/dropbox/bigdata/nplmatch/splittitle_articles");
 
 # Go through source (WOS|MAG|FILE) file
 $linect=0;
@@ -131,8 +124,8 @@ while (<INFILE>) {
 	$title_print=$title;
 	$title_print=~s/[^a-zA-Z0-9-,'.(): ]//g;
 
-	# Skip items with No author, "[anonymous]" author, before 1800, or after 2021
-	if (($firstauthor_lastname eq "")||($firstauthor_lastname eq "[anonymous]")||($year<1799)||($year>2030)) { next; }
+	# Skip items with No author, "[anonymous]" author, before 1800, or after 2019
+	if (($firstauthor_lastname eq "")||($firstauthor_lastname eq "[anonymous]")||($year<1799)||($year>2019)) { next; }
 
 	# Mytitle is the version we use to split the title up in to words in the same way done in 'splittitle_patent'
 	$mytitle=lc($title);
@@ -178,12 +171,13 @@ while (<INFILE>) {
 	if (($longestword)&&(length($longestword)>=2)) {
 	    # Skip authors with no alphanumerics
 	    if ($firstauthor=~/\w/) {
-		if ((length($firstauthor_lastname)>=4)&&(!($firstauthor_lastname=~/ /))) {
-		    $output="$wosid\t$year\t$vol\t$issue\t$firstpage\t$lastpage\t$firstauthor\t$title\t$journal\t";
-		    $regex="\t&fullcompare(\$\_,\"$firstauthor_lastname\",\"$output\");\n";
+		if (length($firstauthor_lastname)>=4) {
+		    $vowels_lastname=$firstauthor_lastname;
+		    $vowels_lastname=~s/[aeiou]/\[aeiou\]/g;
+		    $regex= "\tif ((/\[\^a\-zA\-Z0\-9\_\-\]\\w\?$firstauthor_lastname\[\^a\-zA\-Z0\-9\_\-\]/)||(/\[\^a\-zA\-Z0\-9\_\-\]$firstauthor_lastname\\w\?\[\^a\-zA\-Z0\-9\_\-\]/)||(/\[\^a\-zA\-Z0\-9\_\-\]$vowels_lastname\[\^a\-zA\-Z0\-9\_\-\]/)) { print \"$wosid\t$year\t$vol\t$issue\t$firstpage\t$lastpage\t$firstauthor\t$title\t$journal\t\$_\"; }\n";
 		}
 		else {
-		    $regex="\tif (/\[\^a\-zA\-Z0\-9\_\-\]$firstauthor_lastname\[\^a\-zA\-Z0\-9\_\-\]/) { print \"$wosid\t$year\t$vol\t$issue\t$firstpage\t$lastpage\t$firstauthor\t$title\t$journal\t\$_\"; }\n";
+		    $regex= "\tif (/\[\^a\-zA\-Z0\-9\_\-\]$firstauthor_lastname\[\^a\-zA\-Z0\-9\_\-\]/) { print \"$wosid\t$year\t$vol\t$issue\t$firstpage\t$lastpage\t$firstauthor\t$title\t$journal\t\$_\"; }\n";
 		}
 		$Output{$year}{$longestword}.=$regex;
 		$Output{$year+1}{$longestword}.=$regex;
@@ -195,12 +189,13 @@ while (<INFILE>) {
 	if (($secondlongestword)&&(length($secondlongestword)>=2)) {
 	    # Skip authors with no alphanumerics
 	    if ($firstauthor=~/\w/) {
-		if ((length($firstauthor_lastname)>=4)&&(!($firstauthor_lastname=~/ /))) {
-		    $output="$wosid\t$year\t$vol\t$issue\t$firstpage\t$lastpage\t$firstauthor\t$title\t$journal\t";
-		    $regex="\t&fullcompare(\$\_,\"$firstauthor_lastname\",\"$output\");\n";
+		if (length($firstauthor_lastname)>=4) {
+		    $vowels_lastname=$firstauthor_lastname;
+		    $vowels_lastname=~s/[aeiou]/\[aeiou\]/g;
+		    $regex= "\tif ((/\[\^a\-zA\-Z0\-9\_\-\]\\w\?$firstauthor_lastname\[\^a\-zA\-Z0\-9\_\-\]/)||(/\[\^a\-zA\-Z0\-9\_\-\]$firstauthor_lastname\\w\?\[\^a\-zA\-Z0\-9\_\-\]/)||(/\[\^a\-zA\-Z0\-9\_\-\]$vowels_lastname\[\^a\-zA\-Z0\-9\_\-\]/)) { print \"$wosid\t$year\t$vol\t$issue\t$firstpage\t$lastpage\t$firstauthor\t$title\t$journal\t\$_\"; }\n";
 		}
 		else {
-		    $regex="\tif (/\[\^a\-zA\-Z0\-9\_\-\]$firstauthor_lastname\[\^a\-zA\-Z0\-9\_\-\]/) { print \"$wosid\t$year\t$vol\t$issue\t$firstpage\t$lastpage\t$firstauthor\t$title\t$journal\t\$_\"; }\n";
+		    $regex= "\tif (/\[\^a\-zA\-Z0\-9\_\-\]$firstauthor_lastname\[\^a\-zA\-Z0\-9\_\-\]/) { print \"$wosid\t$year\t$vol\t$issue\t$firstpage\t$lastpage\t$firstauthor\t$title\t$journal\t\$_\"; }\n";
 		}
 		$Output{$year}{$secondlongestword}.=$regex;
 		$Output{$year+1}{$secondlongestword}.=$regex;
@@ -220,36 +215,14 @@ print "\n";
 if ($file==0) {
     $year=$inputyear;
     print "Year is $year\n";
+    $outputfile="$outputdir"."year"."$year".".pl";
+    open(OUTFILE,">$outputfile");
 
-    # Perl line and fullcompare function to support Lev-Dam distance
-    $template_path="$NPL_MISC" . "template_perl";
-    open(PERLFILE,"$template_path")||die("Can't open Perl Template file $template_path\n");
-    $template_contents="";
-    while(<PERLFILE>) {
-	$template_contents.="$_";
-    }
-    close(PERLFILE);
+    # Perl line 
+    print OUTFILE "#!/share/pkg/perl/5.24.0/install/bin/perl\n\n";
 
-#   $sizect=100000000;
-    $sizect=$filesize;
-    $filect=0;
     foreach $year (sort(keys %Output)) {
 	foreach $word (keys %{ $Output{$year} }) {
-#	    if ($sizect>=100000000) {
-#		$sizect-=100000000;
-	    if ($sizect>=$filesize) {
-		$sizect=0;
-		$filenum=$filect+1000;
-		if ($filect!=0) { 
-		    close(OUTFILE); 
-		    `chmod 775 $outputfile`;
-		}
-		$filect++;
-		$outputfile="$outputdir"."year"."$inputyear"."-"."$filenum".".pl";
-		open(OUTFILE,">$outputfile");
-		print OUTFILE "$template_contents";
-	    }
-	    
 	    $firstletter=substr($word,0,1);
 	    $secondletter=substr($word,1,1);
 	    $wordfilepath="$inputdir"."$year/"."$firstletter/" . "$secondletter/"."$word";
@@ -261,8 +234,6 @@ if ($file==0) {
 		print OUTFILE "$Output{$year}{$word}";
 		print OUTFILE "}\n";
 		print OUTFILE "close(INFILE);\n\n";
-
-		$sizect+=length($Output{$year}{$word});
 	    }
 	}
     }
@@ -275,13 +246,8 @@ else {
 	$outputfile="$outputdir"."year"."$year".".pl";
 	open(OUTFILE,">$outputfile");
 	
-	# Perl line and fullcompare function to support Lev-Dam distance
-	$template_path="$NPL_MISC" . "template_perl";
-	open(PERLFILE,"$template_path")||die("Can't open Perl Template file $template_path\n");
-	while(<PERLFILE>) {
-	    print OUTFILE "$_";
-	}
-	close(PERLFILE);
+	# Perl line and fullcompare sub
+	print OUTFILE "#!/share/pkg/perl/5.24.0/install/bin/perl\n\n";
 	
 	foreach $word (keys %{ $Output{$year} }) {
 	    $firstletter=substr($word,0,1);

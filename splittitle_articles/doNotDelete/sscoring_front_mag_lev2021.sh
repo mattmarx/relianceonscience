@@ -5,7 +5,7 @@ JOBTYPE=stfm
 FRONTORBODY=front
 ARTICLEDB=mag
 
-for YEAR in {1799..2021}
+for YEAR in {1814..1814}
 do
  TEMPSLURMFILE=./tempslurm/${JOBTYPE}${YEAR}.slurm
  rm -f $TEMPSLURMFILE

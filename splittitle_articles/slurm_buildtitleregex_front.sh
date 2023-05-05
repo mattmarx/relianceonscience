@@ -21,7 +21,7 @@ do
  echo "buildtitleregex_byyear_front $i"
  echo "#!/bin/bash" > $TEMPFILE
  echo "#SBATCH -p xlarge,large" >> $TEMPFILE
- echo "#SBATCH -J stfo$i" >> $TEMPFILE
+ echo "#SBATCH -J btfo$i" >> $TEMPFILE
  echo "#SBATCH -t 14-00:00" >> $TEMPFILE
  echo "#SBATCH --wckey=marxnfs1" >> $TEMPFILE
  echo "" >> $TEMPFILE
