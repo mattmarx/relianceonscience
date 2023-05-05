@@ -13,8 +13,8 @@ if (!(-e $basedir)) {
 $year=$ARGV[0];
 if (!$year) { die "Usage: splitjournal_front.pl YEAR\n"; }
 
-#$infile="$INPUTDIR_JOURNAL_FRONT" . "journalfront_$year" . ".tsv";
-$infile="$INPUTDIR_JOURNAL_FRONTBATCH" . "journalfront_$year" . ".tsv";
+$infile="$INPUTDIR_JOURNAL_FRONT" . "journalfront_$year" . ".tsv";
+#$infile="$INPUTDIR_JOURNAL_FRONTBATCH" . "journalfront_$year" . ".tsv";
 open(INFILE,"$infile")||die("Can't open infile $infile.\n");
 
 $outdir="$basedir"."$year";
